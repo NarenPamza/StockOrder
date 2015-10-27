@@ -35,21 +35,19 @@ public class StockOrderManager
 		if (orderList == null)
 		{
 			orderList = new ArrayList<Order>();
-			order.setStatus(Status.OPEN);
 			order.setRemainingQuantity(order.getQuantity());
-		} 
+		}
 		else
 		{
 			for (int i = orderList.size() - 1; i < orderList.size(); i--)
 			{
 				Order order2 = orderList.get(i);
-				if (order2.getStatus() != Status.CLOSED
-						&& !order.getSide().equalsIgnoreCase(order2.getSide()))
+				if (order2.getStatus() != Status.CLOSED)
 				{
 					int value = order2.getRemainingQuantity()
 							- order.getQuantity();
-					order.setRemainingQuantity(value);
-					order.setStatus(Status.OPEN);
+					order.setRemainingQuantity(Math.abs(value));
+					order2.setRemainingQuantity(0);
 					break;
 				}
 			}

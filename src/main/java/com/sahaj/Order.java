@@ -55,6 +55,14 @@ public abstract class Order
 	public void setRemainingQuantity(int remainingQuantity)
 	{
 		this.remainingQuantity = remainingQuantity;
+		if(remainingQuantity > 0)
+		{
+			this.setStatus(Status.OPEN);
+		}
+		else
+		{
+			this.setStatus(Status.CLOSED);
+		}
 	}
 
 	public static enum Status

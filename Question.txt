@@ -30,3 +30,16 @@ Buy XYZ 8										Sell XYZ 15 0 Closed
 												Buy XYZ 10 0 Closed
 												Buy XYZ 8 3 Open 
 -------------------------------------------------------------------------------------
+
+Buy,ABC,10
+Sell,XYZ,15
+Sell,ABC,13
+Buy,XYZ,10
+Buy,XYZ,8
+
+
+Side: Buy, CompanyName: ABC, Quantity: 10, RemainingQty: 0, Status: Closed
+Side: Sell, CompanyName: XYZ, Quantity: 15, RemainingQty: 0, Status: Closed
+Side: Sell, CompanyName: ABC, Quantity: 13, RemainingQty: 3, Status: Open
+Side: Buy, CompanyName: XYZ, Quantity: 10, RemainingQty: 0, Status: Closed
+Side: Buy, CompanyName: XYZ, Quantity: 8, RemainingQty: 3, Status: Open

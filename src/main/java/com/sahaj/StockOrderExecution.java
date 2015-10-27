@@ -9,9 +9,11 @@ public class StockOrderExecution
 	{
 		System.out.println("Welcome 2 Stock Order Execution");
 
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in)))
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(
+				System.in)))
 		{
-			System.out.println("Enter the Input in the following order seperated by ',' and press enter: ");
+			System.out
+					.println("Enter the Input in the following order seperated by ',' and press enter: ");
 			System.out.println("Side, Company, Quantity");
 			String input = null;
 
@@ -24,18 +26,26 @@ public class StockOrderExecution
 					if ("Buy".equalsIgnoreCase(split[0].trim()))
 					{
 						order = new Buy();
-					} else
+					}
+					else
 					{
 						order = new Sell();
 					}
-					order.setCompanyName(split[1] != null ? split[1].trim() : null);
-					order.setQuantity(Integer.parseInt(split[2] != null ? split[2].trim() : null));
-					StockOrderManager.getInstance().createOrder(order.getCompanyName(), order);
+					order.setCompanyName(split[1] != null ? split[1].trim()
+							: null);
+					order.setQuantity(Integer
+							.parseInt(split[2] != null ? split[2].trim() : null));
+					StockOrderManager.getInstance().createOrder(
+							order.getCompanyName(), order);
+				}
+				else
+				{
 					StockOrderManager.getInstance().printOutput();
 				}
 			}
 
-		} catch (Exception exception)
+		}
+		catch (Exception exception)
 		{
 			exception.printStackTrace();
 		}
