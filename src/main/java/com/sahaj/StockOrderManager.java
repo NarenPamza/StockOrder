@@ -28,8 +28,26 @@ public class StockOrderManager
 		}
 		return stockOrderManager;
 	}
+	
+	public void createOrder(String side, String companyName, int quantity)
+	{
+		Order order;
+		if ("Buy".equalsIgnoreCase(side))
+		{
+			order = new Buy();
+		}
+		else
+		{
+			order = new Sell();
+		}
+		order.setCompanyName(companyName);
+		order.setQuantity(quantity);
+		
+		// Create the Order 
+		addOrder(companyName, order);
+	}
 
-	public void createOrder(String companyName, Order order)
+	private void addOrder(String companyName, Order order)
 	{
 		List<Order> orderList = orders.get(companyName);
 		if (orderList == null)
@@ -65,7 +83,7 @@ public class StockOrderManager
 		return orders.get(companyName);
 	}
 
-	public void printOutput()
+	public void printOrderOutput()
 	{
 		for (Order order : orderOutputList)
 		{
