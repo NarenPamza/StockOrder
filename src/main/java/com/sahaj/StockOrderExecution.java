@@ -21,47 +21,38 @@ public class StockOrderExecution
 
 			while ((input = bufferedReader.readLine()) != null)
 			{
-				if (input != null && input.length() > 1)
+				if (!input.isEmpty())
 				{
-					String[] split = input.split(",");
+					String[] inputs = input.split(",");
 
-					if (split == null || split.length != 3)
+					if (!isValidInputLength(inputs))
 					{
-						System.out.println("Input Values are Invalid");
-						System.out.println("Usage: Side,Company,Quantity");
-						System.out.println("Example: Buy,ABC,10");
-						throw new Error("Input Values are invalid");
+						new StockOrderException(
+								"Invalid Input: Input Values are not equal to 3");
 					}
 
-					String side = split[0];
-					String company = split[1];
-
-					if (Utility.isStringNullOrEmpty(side)
-							|| Utility.isStringNullOrEmpty(company))
+					String side = inputs[0].trim();
+					String company = inputs[1].trim();
+					int quantity = 0;
+					try
 					{
-						throw new Error(
-								"Input Value of Side or Company is Null or Empty");
+						quantity = Integer.parseInt(inputs[2].trim());
+					}
+					catch (NumberFormatException numberFormatException)
+					{
+						new StockOrderException(
+								"Invalid Input: Quantity value is not an Integer value",
+								numberFormatException);
 					}
 
-					if (Utility.isStringNullOrEmpty(split[2]))
+					if (isValidInputs(side, company, quantity))
 					{
-						throw new Error(
-								"Input Value of Quantity is Null or Empty");
+						/*
+						 * Create the Order Instance
+						 */
+						StockOrderManager.getInstance().createOrder(
+								side.trim(), company.trim(), quantity);
 					}
-
-					int quantity = Integer.parseInt(split[2].trim());
-
-					if (quantity < 0)
-					{
-						throw new Error(
-								"Input Value of Quantity is Less than O");
-					}
-
-					/*
-					 * Create the Order Instance
-					 */
-					StockOrderManager.getInstance().createOrder(side.trim(),
-							company.trim(), quantity);
 				}
 				else
 				{
@@ -75,8 +66,49 @@ public class StockOrderExecution
 		}
 		catch (Exception exception)
 		{
-			exception.printStackTrace();
+			new StockOrderException(
+					"Exception while executing the Stock Order Execution",
+					exception);
+		}
+	}
+
+	public static boolean isValidInputs(String side, String company,
+			int quantity) throws StockOrderException
+	{
+		if (Utility.isStringNullOrEmpty(side)
+				|| Utility.isStringNullOrEmpty(company))
+		{
+			throw new StockOrderException(
+					"Invalid Input: Input Value of Side or Company is Empty");
 		}
 
+		if (!("Sell".equalsIgnoreCase(side) || "Buy".equalsIgnoreCase(side)))
+		{
+			throw new StockOrderException(
+					"Invalid Input: Input Value of Side should be 'Buy' or 'Sell'");
+		}
+
+		if (quantity <= 0)
+		{
+			throw new StockOrderException(
+					"Invalid Input: Input Value of Quantity is Less than or equal to O");
+		}
+
+		return true;
+	}
+
+	public static boolean isValidInputLength(String[] inputs)
+			throws StockOrderException
+	{
+		if (inputs.length != 3)
+		{
+			System.out.println("Invalid Input: Input Values are Invalid");
+			System.out.println("Usage: Side,Company,Quantity");
+			System.out.println("Example: Buy,ABC,10");
+			throw new StockOrderException(
+					"Invalid Input: Input Values are not equal to 3");
+		}
+
+		return true;
 	}
 }

@@ -8,8 +8,16 @@ public class Sell extends Order
 	}
 
 	@Override
-	protected String getSide()
+	public void setRemainingQuantity(int remainingQuantity)
 	{
-		return side;
+		this.remainingQuantity = remainingQuantity;
+		if (remainingQuantity > 0)
+		{
+			this.setStatus(Status.OPEN);
+		}
+		else
+		{
+			this.setStatus(Status.CLOSED);
+		}
 	}
 }

@@ -1,14 +1,14 @@
 package com.sahaj;
 
-public abstract class Order
+public abstract class Order implements Quantity
 {
-	protected String side;
+	private String side;
 
 	private String companyName;
 
 	private int quantity;
 
-	private int remainingQuantity;
+	protected int remainingQuantity;
 
 	private Status status;
 
@@ -52,19 +52,6 @@ public abstract class Order
 		return remainingQuantity;
 	}
 
-	public void setRemainingQuantity(int remainingQuantity)
-	{
-		this.remainingQuantity = remainingQuantity;
-		if(remainingQuantity > 0)
-		{
-			this.setStatus(Status.OPEN);
-		}
-		else
-		{
-			this.setStatus(Status.CLOSED);
-		}
-	}
-
 	public static enum Status
 	{
 		OPEN("Open"), CLOSED("Closed");
@@ -86,10 +73,16 @@ public abstract class Order
 	public String toString()
 	{
 		StringBuilder aBuilder = new StringBuilder();
-		aBuilder.append("Side: " + side).append(", CompanyName: " + companyName).append(", Quantity: " + quantity)
-				.append(", RemainingQty: " + remainingQuantity).append(", Status: " + status.getStatusCode());
+		aBuilder.append("Side: " + side)
+				.append(", CompanyName: " + companyName)
+				.append(", Quantity: " + quantity)
+				.append(", RemainingQty: " + remainingQuantity)
+				.append(", Status: " + status.getStatusCode());
 		return aBuilder.toString();
 	}
 
-	protected abstract String getSide();
+	public String getSide()
+	{
+		return side;
+	}
 }
